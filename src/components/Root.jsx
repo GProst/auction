@@ -5,7 +5,6 @@ import {Provider} from 'react-redux'
 
 import {store} from '../redux/store'
 import {history} from '../history'
-import {ROUTES} from '../routes'
 
 import {InfoPage} from './pages/Info'
 import {AuctioneerPage} from './pages/Auctioneer'
@@ -19,10 +18,10 @@ export class Root extends React.Component {
       <Provider store={store}>
         <ConnectedRouter history={history} store={store}>
           <Switch>
-            <Route exact strict path={ROUTES.root} component={InfoPage} />
-            <Route exact strict path={ROUTES.auctioneer} component={AuctioneerPage} />
-            <Route exact strict path={ROUTES.bidder} component={BidderPage} />
-            <Redirect to={ROUTES.root} />
+            <Route exact strict path='/' component={InfoPage} />
+            <Route exact strict path='/auctioneer' component={AuctioneerPage} />
+            <Route exact strict path='/bidder/:id' component={BidderPage} />
+            <Redirect to='/' />
           </Switch>
         </ConnectedRouter>
       </Provider>
