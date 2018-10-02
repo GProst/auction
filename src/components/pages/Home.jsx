@@ -7,14 +7,7 @@ import TextField from '@material-ui/core/TextField'
 
 import {ROUTES} from '../../routes'
 
-const PageContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
+import {PageContainer} from '../reusable/PageContainer'
 
 const Link = styled(_Link)`
   text-decoration: none;
