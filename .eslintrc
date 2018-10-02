@@ -1,0 +1,42 @@
+{
+  "root": true,
+  "env": {
+    "es6": true,
+    "node": true,
+    "commonjs": true,
+    "shared-node-browser": true
+  },
+  "parserOptions": {
+    "sourceType": "script",
+    "allowImportExportEverywhere": true
+  },
+  "parser": "babel-eslint",
+  "extends": [
+    "standard"
+  ],
+  "rules": {
+    "quotes": ["error", "single"],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-empty-function": "error",
+    "arrow-parens": ["error", "as-needed"],
+    "space-before-function-paren": ["error", {"anonymous": "never", "named": "never", "asyncArrow": "always"}],
+    "object-curly-spacing": [
+      "error",
+      "never"
+    ],
+    "strict": ["error", "global"],
+    "keyword-spacing": [
+      "error",
+      {
+        "overrides": {
+          "catch": { "after": false }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "16.4.2"
+    }
+  }
+}
