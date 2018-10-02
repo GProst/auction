@@ -1,8 +1,8 @@
-export const SET_CONNECTION_STATUS = 'auction/SET_CONNECTION_STATUS'
+export const UPDATE_STATE = 'auction/UPDATE_STATE'
 
-export const setConnectionStatus = payload => {
+export const updateAuctionState = payload => {
   return {
-    type: SET_CONNECTION_STATUS,
+    type: UPDATE_STATE,
     payload
   }
 }

@@ -6,9 +6,12 @@ import PropTypes from 'prop-types'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import {PageContainer} from '../reusable/PageContainer'
 import {Divider} from '../reusable/Divider'
+
+import {startAuction, stopAuction} from '../../api'
 
 const UpperSection = styled.div`
   display: flex;
@@ -23,7 +26,17 @@ const Title = styled.div`
 `
 
 const LowerSection = styled.div`
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+  line-height: 1.5;
+`
+
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
 `
 
 const FIELD = {
@@ -36,7 +49,8 @@ const connector = connect(
     isAuctionStarted: auction.isAuctionStarted,
     itemName: auction.itemName,
     startingPrice: auction.startingPrice,
-    currentPrice: auction.currentPrice
+    currentPrice: auction.currentPrice,
+    leader: auction.leader
   })
 )
 
@@ -46,11 +60,13 @@ class AuctioneerPage extends React.Component {
   static propTypes = {
     isAuctionStarted: PropTypes.bool.isRequired,
     itemName: PropTypes.string.isRequired,
-    startingPrice: PropTypes.number.isRequired,
-    currentPrice: PropTypes.number.isRequired
+    startingPrice: PropTypes.string,
+    currentPrice: PropTypes.string,
+    leader: PropTypes.string
   }
 
   state = {
+    loading: false,
     fields: {
       [FIELD.itemName]: '',
       [FIELD.startingPrice]: ''
@@ -104,14 +120,32 @@ class AuctioneerPage extends React.Component {
     return isValid
   }
 
-  startAuction = () => {
+  startAuction = async () => {
     if (this.isFormValid()) {
-      // TODO
+      const {fields} = this.state
+      try {
+        this.setState({loading: true})
+        await startAuction({
+          itemName: fields[FIELD.itemName],
+          startingPrice: fields[FIELD.startingPrice]
+        })
+      } catch(e) {
+        console.error(e)
+      } finally {
+        this.setState({loading: false})
+      }
     }
   }
 
-  stopAuction() {
-    // TODO
+  stopAuction = async () => {
+    try {
+      this.setState({loading: true})
+      await stopAuction()
+    } catch(e) {
+      console.error(e)
+    } finally {
+      this.setState({loading: false})
+    }
   }
 
   onInputChange = (event, fieldName) => {
@@ -134,7 +168,7 @@ class AuctioneerPage extends React.Component {
   }
 
   render() {
-    const {fields, errors} = this.state
+    const {fields, errors, loading} = this.state
     const {isAuctionStarted} = this.props
     return (
       <PageContainer>
@@ -142,7 +176,7 @@ class AuctioneerPage extends React.Component {
           <Title>Auctioneer</Title>
           <TextField
             label='Item name'
-            disabled={isAuctionStarted}
+            disabled={loading || isAuctionStarted}
             error={Boolean(errors[FIELD.itemName])}
             placeholder='Starry Night'
             fullWidth
@@ -154,7 +188,7 @@ class AuctioneerPage extends React.Component {
           />
           <TextField
             label='Starting price'
-            disabled={isAuctionStarted}
+            disabled={loading || isAuctionStarted}
             error={Boolean(errors[FIELD.startingPrice])}
             placeholder='100'
             fullWidth
@@ -170,13 +204,24 @@ class AuctioneerPage extends React.Component {
         </UpperSection>
         <Divider />
         <LowerSection>
-          <Button
-            variant='contained'
-            onClick={isAuctionStarted ? this.stopAuction : this.startAuction}
-            disabled={isAuctionStarted ? false : Object.values(errors).some(error => error !== null)}
-          >
-            {isAuctionStarted ? 'Stop auction' : 'Start auction'}
-          </Button>
+          {isAuctionStarted && (
+            <>
+              <div>Current price:</div>
+              <div>${this.props.currentPrice || this.props.startingPrice} - {this.props.leader ? `Bidder ${this.props.leader}` : 'No offers'}</div>
+            </>
+          )}
+          <ButtonContainer>
+            <Button
+              variant='contained'
+              onClick={isAuctionStarted ? this.stopAuction : this.startAuction}
+              disabled={loading || (isAuctionStarted ? false : Object.values(errors).some(error => error !== null))}
+            >
+              {isAuctionStarted ? 'Stop auction' : 'Start auction'}
+            </Button>
+            {loading && (
+              <CircularProgress size={30} style={{marginLeft: 10}} />
+            )}
+          </ButtonContainer>
         </LowerSection>
       </PageContainer>
     )

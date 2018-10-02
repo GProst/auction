@@ -1,4 +1,4 @@
-import {SET_CONNECTION_STATUS} from './actions'
+import {UPDATE_STATE} from './actions'
 
 export * from './actions'
 
@@ -6,18 +6,18 @@ export const defaultState = {
   isConnectedToWS: true,
   isAuctionStarted: false,
   itemName: '',
-  startingPrice: 0,
-  currentPrice: 0,
+  startingPrice: null,
+  currentPrice: null,
   leader: null,
   offerors: []
 }
 
 export const auction = (previousState = defaultState, action) => {
   switch (action.type) {
-    case SET_CONNECTION_STATUS:
+    case UPDATE_STATE:
       return {
         ...previousState,
-        isConnectedToWS: action.payload
+        ...action.payload
       }
     default:
       return previousState
