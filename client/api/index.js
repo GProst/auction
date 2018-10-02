@@ -1,5 +1,26 @@
 import {store} from '../redux/store'
 import {updateAuctionState} from '../redux/reducers/auction/actions'
+import io from 'socket.io-client'
+
+let socket
+
+export const connectToWS = () => {
+  socket = io('http://localhost:3051', {
+    transports: ['websocket']
+  })
+  socket.on('disconnect', () => {
+    store.dispatch(updateAuctionState({
+      isConnectedToWS: false
+    }))
+    socket.connect()
+  })
+  socket.on('initial-connect', data => {
+    store.dispatch(updateAuctionState({
+      isConnectedToWS: true,
+      ...data
+    }))
+  })
+}
 
 export const startAuction = async ({itemName, startingPrice}) => {
   // TODO: integrate real WS server

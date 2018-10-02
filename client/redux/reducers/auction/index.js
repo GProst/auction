@@ -3,7 +3,7 @@ import {UPDATE_STATE} from './actions'
 export * from './actions'
 
 export const defaultState = {
-  isConnectedToWS: true,
+  isConnectedToWS: false,
   isAuctionStarted: false,
   itemName: '',
   startingPrice: null,

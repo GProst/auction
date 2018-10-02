@@ -4,7 +4,8 @@
   "description": "auction",
   "author": "GProst a.k.a German Prostakov <gprostmail@gmail.com>",
   "scripts": {
-    "start": "webpack-dev-server --port 3050 --output-public-path=/ --host 0.0.0.0"
+    "start-ws-server": "node ./server/index.js",
+    "start-web-server": "webpack-dev-server --port 3050 --output-public-path=/ --host 0.0.0.0"
   },
   "dependencies": {
     "@material-ui/core": "^3.0.1",
