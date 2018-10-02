@@ -19,7 +19,7 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     app: [
-      './src/index.jsx'
+      './client/index.jsx'
     ]
   },
   optimization: {
@@ -38,7 +38,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: './client/index.html',
       filename: 'index.html',
       inject: 'body',
       cache: false,
