@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -10,34 +9,12 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 import {PageContainer} from '../reusable/PageContainer'
 import {Divider} from '../reusable/Divider'
+import {ButtonContainer} from '../reusable/ButtonContainer'
+import {LowerSection} from '../reusable/LowerSection'
+import {Title} from '../reusable/Title'
+import {UpperSection} from '../reusable/UpperSection'
 
 import {startAuction, stopAuction} from '../../api'
-
-const UpperSection = styled.div`
-  display: flex;
-  width: 250px;
-  flex-direction: column;
-  align-items: flex-start;
-`
-
-const Title = styled.div`
-  font-size: 20px;
-  margin-bottom: 10px;
-`
-
-const LowerSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 18px;
-  line-height: 1.5;
-`
-
-const ButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 25px;
-`
 
 const FIELD = {
   itemName: 'itemName',

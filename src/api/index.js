@@ -30,3 +30,18 @@ export const stopAuction = async () => {
     startingPrice: null
   }))
 }
+
+export const submitOffer = async ({bidderId, offerPrice}) => {
+  // TODO: integrate real WS server
+  await new Promise(resolve => {
+    setTimeout(resolve, 1000)
+  })
+  store.dispatch(updateAuctionState({
+    isAuctionStarted: false,
+    currentPrice: offerPrice.toString(),
+    leader: bidderId,
+    offerors: [bidderId],
+    itemName: '',
+    startingPrice: null
+  }))
+}
