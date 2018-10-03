@@ -40,8 +40,19 @@ io.on('connection', socket => {
   })
 
   socket.on('stop-auction', (data, fn) => {
+    updateAuctionState(defaultAuctionState)
+    fn(auctionState)
+    emitUpdate()
+  })
+
+  socket.on('submit-offer', (data, fn) => {
+    const {bidderId, offerPrice} = data
+    const offerors = [...auctionState.offerors]
+    if (!offerors.includes(bidderId)) offerors.push(bidderId)
     updateAuctionState({
-      isAuctionStarted: false
+      leader: bidderId,
+      offerors,
+      currentPrice: offerPrice
     })
     fn(auctionState)
     emitUpdate()

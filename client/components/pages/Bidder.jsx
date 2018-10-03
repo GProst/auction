@@ -75,7 +75,7 @@ class BidderPage extends React.Component {
     const {isAuctionStarted, itemName, offerors, currentPrice, startingPrice, leader, match: {params: {id: bidderId}}} = this.props
     const isLeader = leader === bidderId
     const isOfferor = offerors.includes(bidderId)
-    const offerPrice = Number(currentPrice || startingPrice) + 100
+    const offerPrice = (Number(currentPrice || startingPrice) + 100).toString()
     return (
       <PageContainer>
         <UpperSection style={{width: 'auto'}}>

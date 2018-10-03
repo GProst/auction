@@ -49,16 +49,10 @@ export const stopAuction = async () => {
 }
 
 export const submitOffer = async ({bidderId, offerPrice}) => {
-  // TODO: integrate real WS server
-  await new Promise(resolve => {
-    setTimeout(resolve, 1000)
+  return new Promise(resolve => {
+    socket.emit('submit-offer', {bidderId, offerPrice}, data => {
+      store.dispatch(updateAuctionState(data))
+      resolve()
+    })
   })
-  store.dispatch(updateAuctionState({
-    isAuctionStarted: false,
-    currentPrice: offerPrice.toString(),
-    leader: bidderId,
-    offerors: [bidderId],
-    itemName: '',
-    startingPrice: null
-  }))
 }
