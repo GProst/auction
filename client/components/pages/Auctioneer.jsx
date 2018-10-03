@@ -13,6 +13,7 @@ import {ButtonContainer} from '../reusable/ButtonContainer'
 import {LowerSection} from '../reusable/LowerSection'
 import {Title} from '../reusable/Title'
 import {UpperSection} from '../reusable/UpperSection'
+import {HomePageLink} from '../reusable/HomePageLink'
 
 import {startAuction, stopAuction} from '../../api'
 
@@ -149,6 +150,7 @@ class AuctioneerPage extends React.Component {
     const {isAuctionStarted} = this.props
     return (
       <PageContainer>
+        <HomePageLink />
         <UpperSection>
           <Title>Auctioneer</Title>
           <TextField

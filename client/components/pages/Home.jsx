@@ -12,6 +12,7 @@ import {PageContainer} from '../reusable/PageContainer'
 const Link = styled(_Link)`
   text-decoration: none;
   color: inherit;
+  padding: 8px 16px;
 `
 
 const BidderLinkContainer = styled.div`
@@ -37,13 +38,13 @@ export class HomePage extends React.Component {
 
     return (
       <PageContainer>
-        <Button variant='contained' style={{marginBottom: 30}}>
+        <Button variant='contained' style={{padding: 0, marginBottom: 30}}>
           <Link to={ROUTES.auctioneer}>
             Go to Auctioneer page
           </Link>
         </Button>
         <BidderLinkContainer>
-          <Button variant='contained' disabled={!bidderId} style={{marginRight: 20}}>
+          <Button variant='contained' disabled={!bidderId} style={{padding: 0, marginRight: 20}}>
             <Link to={ROUTES.bidder.getRouteByID(bidderId)}>
               Go to Bidder page
             </Link>

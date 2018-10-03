@@ -12,6 +12,7 @@ import {ButtonContainer} from '../reusable/ButtonContainer'
 import {LowerSection} from '../reusable/LowerSection'
 import {Title} from '../reusable/Title'
 import {UpperSection} from '../reusable/UpperSection'
+import {HomePageLink} from '../reusable/HomePageLink'
 
 import {submitOffer} from '../../api'
 
@@ -78,6 +79,7 @@ class BidderPage extends React.Component {
     const offerPrice = (Number(currentPrice || startingPrice) + 100).toString()
     return (
       <PageContainer>
+        <HomePageLink />
         <UpperSection style={{width: 'auto'}}>
           <Title>Bidder {bidderId}</Title>
           {isAuctionStarted && (
