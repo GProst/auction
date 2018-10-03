@@ -14,42 +14,38 @@ export const connectToWS = () => {
     }))
     socket.connect()
   })
+  socket.on('connect_error', () => {
+    setTimeout(() => {
+      socket.connect()
+    }, 1000)
+  })
   socket.on('initial-connect', data => {
     store.dispatch(updateAuctionState({
       isConnectedToWS: true,
       ...data
     }))
   })
+  socket.on('auction-update', data => {
+    store.dispatch(updateAuctionState(data))
+  })
 }
 
-export const startAuction = async ({itemName, startingPrice}) => {
-  // TODO: integrate real WS server
-  await new Promise(resolve => {
-    setTimeout(resolve, 1000)
+export const startAuction = ({itemName, startingPrice}) => {
+  return new Promise(resolve => {
+    socket.emit('start-auction', {itemName, startingPrice}, data => {
+      store.dispatch(updateAuctionState(data))
+      resolve()
+    })
   })
-  store.dispatch(updateAuctionState({
-    isAuctionStarted: true,
-    currentPrice: null,
-    leader: null,
-    offerors: [],
-    itemName,
-    startingPrice
-  }))
 }
 
 export const stopAuction = async () => {
-  // TODO: integrate real WS server
-  await new Promise(resolve => {
-    setTimeout(resolve, 1000)
+  return new Promise(resolve => {
+    socket.emit('stop-auction', null, data => {
+      store.dispatch(updateAuctionState(data))
+      resolve()
+    })
   })
-  store.dispatch(updateAuctionState({
-    isAuctionStarted: false,
-    currentPrice: null,
-    leader: null,
-    offerors: [],
-    itemName: '',
-    startingPrice: null
-  }))
 }
 
 export const submitOffer = async ({bidderId, offerPrice}) => {

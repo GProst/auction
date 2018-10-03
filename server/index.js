@@ -13,10 +13,39 @@ const defaultAuctionState = {
   offerors: []
 }
 
-const auctionState = {
+// No persistent store, just in memory
+let auctionState = {
   ...defaultAuctionState
 }
 
+const updateAuctionState = data => {
+  auctionState = {
+    ...auctionState,
+    ...data
+  }
+}
+
+const emitUpdate = () => {
+  io.sockets.emit('auction-update', auctionState)
+}
+
 io.on('connection', socket => {
+  socket.on('start-auction', (data, fn) => {
+    updateAuctionState({
+      ...data,
+      isAuctionStarted: true
+    })
+    fn(auctionState)
+    emitUpdate()
+  })
+
+  socket.on('stop-auction', (data, fn) => {
+    updateAuctionState({
+      isAuctionStarted: false
+    })
+    fn(auctionState)
+    emitUpdate()
+  })
+
   socket.emit('initial-connect', auctionState)
 })
